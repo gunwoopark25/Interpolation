@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="Interpolation/Interpolation.vcxproj" Id="906c3dad-66b3-4318-9ff2-e4b949acac33" />
+</Solution>
