@@ -11,6 +11,7 @@ build/
 .vs/
 *.vcxproj.user
 *.sln
+.vscode/
 
 # Build outputs
 x64/

@@ -1,11 +1,11 @@
-#include<iostream>
-#include<string>
-#include<fstream>
+#include <iostream>
+#include <string>
+#include <fstream>
 #include "Interpolation.h"
 
 using namespace std;
 
-void main()
+int main()
 {
 	Interpolation Interpolation3;
 
@@ -13,4 +13,6 @@ void main()
 	Interpolation3.normalization();
 	Interpolation3.chord_length();
 	Interpolation3.makeBernsteinMatrix();
-}	
+
+	return 0;
+}
