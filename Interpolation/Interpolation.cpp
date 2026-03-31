@@ -10,47 +10,33 @@ using namespace std;
 /*--- Consturcture ---*/
 Interpolation::Interpolation()
 {
-<<<<<<< HEAD
-	/*--- Reset Valiable ---*/
-	Min_x = 1000;
-	Min_y = 1000;
-	Max_x = 0;
-	Max_y = 0;
-=======
 	/*--- Input Variable ---*/
 	Degree = 3;
+	parameter = 11;
+	R = 5;
 
 
 	/*--- Calculate Variable ---*/
 	Number_POC = Degree + 1;
->>>>>>> parent of 85c5b70 (오류 있게 완성 이제 과제 오류 해결)
+	Size = Number_POC * 2;
+	POC_Size = Number_POC;
+	for (int i = Number_POC - 1; i > 0; i--)
+	{
+		POC_Size = POC_Size + i;
+	}
 
-	Max_u = 0.0;
-	t = 0.0;
-	boundary = 0;
-	Chord_length = 0.0;
-
-	Degreep = 0;
-	jp = 0;
-	Degree_j = 0;
-	Degree_jp = 0;
-
-	nCr = 0.0;
-	Set2 = 0.0;
-	factor = 0.0;
-
-	dx = 0.0;
-	dy = 0.0;
-	Sum_x = 0.0;
-	Sum_y = 0.0;
+	Min_x = 1000;
+	Min_y = 1000;
+	Max_x = 0;
+	Max_y = 0;
 
 	POC = nullptr;
 	CP = nullptr;
-	Coordinate = nullptr;
-	All_POC = nullptr;
-	Matrix = nullptr;
-	u = nullptr;
-	l = nullptr;
+}
+/*--- Destructor ---*/
+Interpolation::~Interpolation()
+{
+
 }
 
 /*--- Define function ---*/
@@ -65,42 +51,19 @@ void Interpolation::fileLoad()
 		cout << "You can't load this file" << endl;
 	}
 
-	Degree = 3;
-	parameter = 11;
-	R = 5;
-
-	Number_POC = Degree + 1;
-	Size = Number_POC * 2;
-	POC_Size = Number_POC;
-	for (int i = Number_POC - 1; i > 0; i--)
-	{
-		POC_Size = POC_Size + i;
-	}
-
 	/*--- Dynamic Memory Allocation ---*/
-<<<<<<< HEAD
 	POC = new Point2D[Degree];
 	CP = new Point2D[Degree];
-	Coordinate = new Point2D[POC_Size];
-	All_POC = new Point2D[parameter];
-	Matrix = new double* [Size-1];
+	Matrix = new double* [Size - 1];
 	for (int i = 0; i < Number_POC; i++)
 	{
 		Matrix[i] = new double[Size - 1];
 	}
-
-=======
-	POC = new Point2D[Number_POC];
-	CP = new Point2D[Number_POC];
-	Matrix = new double* [Number_POC];
-	for (int i = 0; i < Number_POC; i++)
-	{
-		Matrix[i] = new double[Number_POC];
-	}
->>>>>>> parent of 85c5b70 (오류 있게 완성 이제 과제 오류 해결)
+	Coordinate = new Point2D[POC_Size];
+	All_POC = new Point2D[parameter];
 
 	/*--- Writing POC at Point2D ---*/
-	for (int i = 0; i <= Degree; i++)
+	for (int i = 0; i < Number_POC; i++)
 	{
 		readFile >> POC[i].x;
 		readFile >> POC[i].y;
@@ -113,40 +76,50 @@ void Interpolation::fileLoad()
 void Interpolation::normalization()
 {
 	/*--- Save Variable ---*/
-	Min_x = POC[0].x;
-	Min_y = POC[0].y;
-	Max_x = POC[Degree].x;
-	Max_y = POC[Degree].y;
+	/*--- Min value ---*/
+	for (int i = 0; i < Number_POC; i++)
+	{
+		if (Min_x > POC[i].x)
+		{
+			Min_x = POC[i].x;
+		}
+		if (Min_y > POC[i].y)
+		{
+			Min_y = POC[i].y;
+		}
+	}
+	/*--- Max value ---*/
+	for (int i = 0; i < Number_POC; i++)
+	{
+		if (Max_x < POC[i].x)
+		{
+			Max_x = POC[i].x;
+		}
+		if (Max_y < POC[i].y)
+		{
+			Max_y = POC[i].y;
+		}
+	}
 
 	dx = Max_x - Min_x;
 	dy = Max_y - Min_y;
-	x_y = sqrt(dx * dx + dy * dy);
 
 	for (int i = 0; i < Number_POC; i++)
 	{
-		POC[i].x = (POC[i].x - Min_x) / x_y;
-		POC[i].y = (POC[i].y - Min_y) / x_y;
-	}
-}
-
-void Interpolation::solveNormalization()
-{
-	for (int i = 0; i < Number_POC; i++)
-	{
-		CP[i].x = CP[i].x * x_y + Min_x;
-		CP[i].y = CP[i].y * x_y + Min_y;
+		POC[i].x = (POC[i].x - Min_x) / dx;
+		POC[i].y = (POC[i].y - Min_y) / dy;
 	}
 }
 
 void Interpolation::chord_length()
 {
-	u = new double[Degree];
-	l = new double[Degree - 1];
+	u = new double[Number_POC];
+	l = new double[Number_POC];
 
 	u[0] = 0;
-	for (int i = 1; i <= Degree; i++)
+	for (int i = 1; i < Number_POC; i++)
 	{
-		l[i-1] = sqrt(pow(POC[i].x - POC[i - 1].x, 2) + pow(POC[i].y - POC[i - 1].y, 2));
+		l[i - 1] = sqrt(pow(POC[i].x - POC[i - 1].x, 2) + pow(POC[i].y - POC[i - 1].y, 2));
 	}
 	for (int i = 1; i < Number_POC; i++)
 	{
@@ -154,12 +127,27 @@ void Interpolation::chord_length()
 	}
 }
 
+void Interpolation::chord_length_normalization()
+{
+	for (int i = 0; i < Number_POC; i++)
+	{
+		if (Max_u < u[i])
+		{
+			Max_u = u[i];
+		}
+	}
+	for (int i = 0; i < Number_POC; i++)
+	{
+		u[i] = u[i] / Max_u;
+	}
+}
+
 
 void Interpolation::makeBernsteinMatrix()
 {
-	for (int i = 0; i <= Degree; i++)
+	for (int i = 0; i < Number_POC; i++)
 	{
-		for (int j = 0; j <= Degree; j++)
+		for (int j = 0; j < Number_POC; j++)
 		{
 			/*--- Calculate nCr ---*/
 			Degreep = 1;
@@ -174,7 +162,7 @@ void Interpolation::makeBernsteinMatrix()
 			{
 				jp *= k;
 			}
-			
+
 			Degree_j = Degree - j;
 			for (int k = 1; k <= Degree_j; k++)
 			{
@@ -186,15 +174,14 @@ void Interpolation::makeBernsteinMatrix()
 			Matrix[i][j] = nCr * pow(1 - u[i], Degree - j) * pow(u[i], j);
 		}
 	}
-<<<<<<< HEAD
 }
 
 void Interpolation::GaussJordanElimination()
 {
 	/*--- Make IdentityMatrix ---*/
-	for (int i = 0; i <= Degree; i++)
+	for (int i = 0; i < Number_POC; i++)
 	{
-		for (int j = Number_POC; j <= Size - 1; j++)
+		for (int j = Degree + 1; j < Size; j++)
 		{
 			if (i == j - Number_POC)
 			{
@@ -229,7 +216,7 @@ void Interpolation::GaussJordanElimination()
 			if (k != i)
 			{
 				factor = Matrix[k][i];
-				if (factor != 0) 
+				if (factor != 0)
 				{
 					for (int j = 0; j < 2 * Number_POC; j++)
 					{
@@ -239,7 +226,7 @@ void Interpolation::GaussJordanElimination()
 			}
 		}
 	}
-	
+
 	for (int i = 0; i < Number_POC; i++)
 	{
 		for (int j = 0; j < Size; j++)
@@ -268,15 +255,15 @@ void Interpolation::matrixMultiplication()
 }
 void Interpolation::BezierCurve()
 {
-	for (int k = 0; k <= parameter; k++)
+	for (int i = 0; i <= parameter; i++)
 	{
-		t = (double)k / parameter;
-		
+		t = (double)i / parameter;
+
 		boundary = 0;
 
-		for (int i = 1; i <= Degree; i++)
+		for (int j = 1; j <= Degree; j++)
 		{
-			int n = Degree - i + 1;
+			int n = Degree - j + 1;
 			int start_X = boundary + 1;
 			int end_X = boundary + n + 1;
 
@@ -285,30 +272,30 @@ void Interpolation::BezierCurve()
 				Coordinate[X + n].x = (1 - t) * Coordinate[X - 1].x + t * Coordinate[X].x;
 				Coordinate[X + n].y = (1 - t) * Coordinate[X - 1].y + t * Coordinate[X].y;
 			}
-			boundary += Degree + 1 - i + 1;
+			boundary += Degree + 1 - j + 1;
 		}
 
 		int last_X = POC_Size - 1;
-		All_POC[k].x = Coordinate[last_X].x;
-		All_POC[k].y = Coordinate[last_X].y;
+		All_POC[i].x = Coordinate[last_X].x;
+		All_POC[i].y = Coordinate[last_X].y;
 	}
 }
 
 void Interpolation::solveNormalization()
 {
-	for (int i = 0; i <= Degree; i++)
+	for (int i = 0; i < Number_POC; i++)
+	{
+		POC[i].x = (POC[i].x - Min_x) / dx;
+		POC[i].y = (POC[i].y - Min_y) / dy;
+	}
+
+	for (int i = 0; i < Number_POC; i++)
 	{
 		POC[i].x = POC[i].x * dx + Min_x;
 		POC[i].y = POC[i].y * dy + Min_y;
 		CP[i].x = CP[i].x * dx + Min_x;
 		CP[i].y = CP[i].y * dy + Min_y;
 	}
-	for (int i = 0; i <= parameter; i++)
-	{
-		All_POC[i].x = All_POC[i].x * dx + Min_x;
-		All_POC[i].y = All_POC[i].y * dy + Min_y;
-	}
-	
 }
 
 void Interpolation::fileWrite()
@@ -316,7 +303,6 @@ void Interpolation::fileWrite()
 	ofstream txtFile("CP.txt");
 	ofstream psFile("Curve.ps");
 
-	/*--- Check File ---*/
 	if (!txtFile || !psFile)
 	{
 		/*--- When can't file output ---*/
@@ -325,11 +311,12 @@ void Interpolation::fileWrite()
 
 	/*--- Post Script Header ---*/
 	psFile << "%!PS" << endl;
-
-	/*--- Drawing Cp Line at ps---*/
 	psFile << "newpath" << endl;
+
 	for (int i = 0; i < Number_POC; i++)
 	{
+		txtFile << CP[i].x << " " << CP[i].y << endl;
+
 		if (i == 0)
 		{
 			psFile << CP[i].x << " " << CP[i].y << "moveto" << endl;
@@ -341,17 +328,10 @@ void Interpolation::fileWrite()
 	}
 	psFile << "stroke" << endl;
 
-	/*--- Write Cp at txt ---*/
-	for (int i = 0; i <= Degree; i++)
-	{
-		txtFile << CP[i].x << " " << CP[i].y << endl;
-	}
-	
-	/*--- Drawing Circle at Cp ---*/
-	for (int i = 0; i <= Degree; i++)
+	for (int i = 0; i < Number_POC; i++)
 	{
 		psFile << "newpath" << endl;
-		if (i= 0 || i == Degree)
+		if (i = 0 || i == Degree)
 		{
 			psFile << CP[i].x << " " << CP[i].y << " " << R << " " << "0 360 arc" << endl;
 			psFile << "fill" << endl;
@@ -362,10 +342,8 @@ void Interpolation::fileWrite()
 			psFile << "stroke" << endl;
 		}
 	}
-
-	/*--- Drawing input POC Line at ps ---*/
 	psFile << "newpath" << endl;
-	for (int i = 0; i <= Degree; i++)
+	for (int i = 0; i < Number_POC; i++)
 	{
 		if (i == 0)
 		{
@@ -379,8 +357,7 @@ void Interpolation::fileWrite()
 	}
 	psFile << "stroke" << endl;
 
-	/*--- Drawing Circle at POC ---*/
-	for (int i = 0; i <= Degree; i++)
+	for (int i = 0; i < Number_POC; i++)
 	{
 		psFile << "newpath" << endl;
 		if (i = 0 || i == Degree)
@@ -395,7 +372,6 @@ void Interpolation::fileWrite()
 		}
 	}
 
-	/*--- Drawing Bezier Curve ---*/
 	psFile << "newpath" << endl;
 	for (int i = 0; i <= parameter; i++)
 	{
@@ -417,6 +393,4 @@ void Interpolation::fileWrite()
 
 	txtFile.close();
 	psFile.close();
-=======
->>>>>>> parent of 85c5b70 (오류 있게 완성 이제 과제 오류 해결)
 }
