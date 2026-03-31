@@ -10,11 +10,20 @@ using namespace std;
 /*--- Consturcture ---*/
 Interpolation::Interpolation()
 {
+<<<<<<< HEAD
 	/*--- Reset Valiable ---*/
 	Min_x = 1000;
 	Min_y = 1000;
 	Max_x = 0;
 	Max_y = 0;
+=======
+	/*--- Input Variable ---*/
+	Degree = 3;
+
+
+	/*--- Calculate Variable ---*/
+	Number_POC = Degree + 1;
+>>>>>>> parent of 85c5b70 (오류 있게 완성 이제 과제 오류 해결)
 
 	Max_u = 0.0;
 	t = 0.0;
@@ -69,6 +78,7 @@ void Interpolation::fileLoad()
 	}
 
 	/*--- Dynamic Memory Allocation ---*/
+<<<<<<< HEAD
 	POC = new Point2D[Degree];
 	CP = new Point2D[Degree];
 	Coordinate = new Point2D[POC_Size];
@@ -79,6 +89,15 @@ void Interpolation::fileLoad()
 		Matrix[i] = new double[Size - 1];
 	}
 
+=======
+	POC = new Point2D[Number_POC];
+	CP = new Point2D[Number_POC];
+	Matrix = new double* [Number_POC];
+	for (int i = 0; i < Number_POC; i++)
+	{
+		Matrix[i] = new double[Number_POC];
+	}
+>>>>>>> parent of 85c5b70 (오류 있게 완성 이제 과제 오류 해결)
 
 	/*--- Writing POC at Point2D ---*/
 	for (int i = 0; i <= Degree; i++)
@@ -94,38 +113,28 @@ void Interpolation::fileLoad()
 void Interpolation::normalization()
 {
 	/*--- Save Variable ---*/
-	/*--- Min value ---*/
-	for (int i = 0; i < Number_POC; i++)
-	{
-		if (Min_x > POC[i].x)
-		{
-			Min_x = POC[i].x;
-		}
-		if (Min_y > POC[i].y)
-		{
-			Min_y = POC[i].y;
-		}
-	}
-	/*--- Max value ---*/
-	for (int i = 0; i < Number_POC; i++)
-	{
-		if (Max_x < POC[i].x)
-		{
-			Max_x = POC[i].x;
-		}
-		if (Max_y < POC[i].y)
-		{
-			Max_y = POC[i].y;
-		}
-	}
+	Min_x = POC[0].x;
+	Min_y = POC[0].y;
+	Max_x = POC[Degree].x;
+	Max_y = POC[Degree].y;
 
 	dx = Max_x - Min_x;
 	dy = Max_y - Min_y;
+	x_y = sqrt(dx * dx + dy * dy);
 
 	for (int i = 0; i < Number_POC; i++)
 	{
-		POC[i].x = (POC[i].x - Min_x) / dx;
-		POC[i].y = (POC[i].y - Min_y) / dy;
+		POC[i].x = (POC[i].x - Min_x) / x_y;
+		POC[i].y = (POC[i].y - Min_y) / x_y;
+	}
+}
+
+void Interpolation::solveNormalization()
+{
+	for (int i = 0; i < Number_POC; i++)
+	{
+		CP[i].x = CP[i].x * x_y + Min_x;
+		CP[i].y = CP[i].y * x_y + Min_y;
 	}
 }
 
@@ -142,21 +151,6 @@ void Interpolation::chord_length()
 	for (int i = 1; i < Number_POC; i++)
 	{
 		u[i] = u[i - 1] + l[i - 1];
-	}
-}
-
-void Interpolation::chord_length_normalization()
-{
-	for (int i = 0; i < Number_POC; i++)
-	{
-		if (Max_u < u[i])
-		{
-			Max_u = u[i];
-		}
-	}
-	for (int i = 0; i < Number_POC; i++)
-	{
-		u[i] = u[i] / Max_u;
 	}
 }
 
@@ -192,6 +186,7 @@ void Interpolation::makeBernsteinMatrix()
 			Matrix[i][j] = nCr * pow(1 - u[i], Degree - j) * pow(u[i], j);
 		}
 	}
+<<<<<<< HEAD
 }
 
 void Interpolation::GaussJordanElimination()
@@ -422,4 +417,6 @@ void Interpolation::fileWrite()
 
 	txtFile.close();
 	psFile.close();
+=======
+>>>>>>> parent of 85c5b70 (오류 있게 완성 이제 과제 오류 해결)
 }

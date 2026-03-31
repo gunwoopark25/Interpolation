@@ -11,13 +11,8 @@ public:
 
 	/*--- Variable ---*/
 	int Degree;
-	int parameter;
-	double t;
-	int boundary;
 	int Number_POC;
-	int Size;
 	double Chord_length;
-	int R;
 
 	int Degreep;
 	int jp;
@@ -25,8 +20,6 @@ public:
 	int Degree_jp;
 
 	double nCr;
-	double Set2;
-	double factor;
 
 	/*--- For Normalization ---*/
 	double Min_x;
@@ -35,30 +28,19 @@ public:
 	double Max_y;
 	double dx;
 	double dy;
-	double Sum_x;
-	double Sum_y;
-	int POC_Size;
-
+	double x_y;
 	
 	/*--- 2D Variable ---*/
 	Point2D* POC;
 	Point2D* CP;
-	Point2D* Coordinate;
-	Point2D* All_POC;
 	double **Matrix;
 	double* u;
-	double Max_u;
 	double* l;
 
 	/*--- Function ---*/
 	void fileLoad(); // .txt File Loading
 	void normalization();
-	void chord_length();
-	void chord_length_normalization();
-	void makeBernsteinMatrix();
-	void GaussJordanElimination();
-	void matrixMultiplication();
 	void solveNormalization();
-	void fileWrite();
-	void BezierCurve();
+	void chord_length();
+	void makeBernsteinMatrix();
 };
