@@ -15,8 +15,15 @@ public:
 	double Min_y;
 	double Max_x;
 	double Max_y;
+	double Max_u;
 	double dx;
 	double dy;
+
+	int Degreep;
+	int jp;
+	int Degree_jp;
+	int Degree_j;
+	double nCr;
 
 	/*--- 1D ---*/
 	double *u;
@@ -34,4 +41,10 @@ public:
 	void loadFile();
 	void Chordlength();
 	void Normalization();
+	void makeBernsteinMatrix();
+	void GaussJordanElimination();
+	void MatrixMultiplication();
+	void BezierCurve();
+	void solveNormalization();
+	void writePS();
 };

@@ -5,7 +5,7 @@
 
 using namespace std;
 
-int main()
+void main()
 {
     Interpolation Interpolation3;
 
@@ -13,6 +13,10 @@ int main()
     Interpolation3.loadFile();
     Interpolation3.Chordlength();
     Interpolation3.Normalization();
-
-    return 0;
+    Interpolation3.makeBernsteinMatrix();
+    Interpolation3.GaussJordanElimination();
+    Interpolation3.MatrixMultiplication();
+    Interpolation3.BezierCurve();
+    Interpolation3.solveNormalization();
+    Interpolation3.writePS();
 }
