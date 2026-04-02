@@ -118,7 +118,6 @@ void Interpolation::Normalization()
 	dx = Max_x - Min_x;
 	dy = Max_y - Min_y;
 
-	
 	for (int i = 0; i <= Degree; i++)
 	{
 		/*--- POC 정규화 ---*/
@@ -167,7 +166,7 @@ void Interpolation::GaussJordanElimination()
 	/*--- 단위 행렬 생성 ---*/
 	for (int i = 0; i <= Degree; i++)
 	{
-		for (int j = Degree + 1; j <= Matrix_Size-1; j++)
+		for (int j = Degree + 1; j <= Matrix_Size - 1; j++)
 		{
 			if (i == j - Number_POC)
 			{
@@ -249,7 +248,6 @@ void Interpolation::MatrixMultiplication()
 		CP[i].y = Sum_y;
 
 		cout << CP[i].x << " " << CP[i].y << endl;
-
 	}
 }
 
