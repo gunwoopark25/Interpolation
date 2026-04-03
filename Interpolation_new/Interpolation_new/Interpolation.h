@@ -3,7 +3,12 @@
 class Interpolation
 {
 public:
-	/*--- Variable ---*/
+	/*--- 생성자 ---*/
+	Interpolation();
+	/*--- 소멸자 ---*/
+	~Interpolation();
+
+	/*--- 변수 ---*/
 	int Degree;
 	int Parameter;
 	int R;

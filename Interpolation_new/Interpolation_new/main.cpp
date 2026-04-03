@@ -9,7 +9,6 @@ int main()
 {
     Interpolation Interpolation3;
 
-    Interpolation3.inputData();
     Interpolation3.loadFile();
     Interpolation3.Chordlength();
     Interpolation3.Normalization();
@@ -18,7 +17,6 @@ int main()
     Interpolation3.MatrixMultiplication();
     Interpolation3.BezierCurve();
     Interpolation3.solveNormalization();
-    Interpolation3.writePS();
-
+   
     return 0;
 }

@@ -7,6 +7,16 @@
 
 using namespace std;
 
+Interpolation::Interpolation()
+{
+	inputData();
+}
+
+Interpolation::~Interpolation()
+{
+	writePS();
+}
+
 void Interpolation::inputData()
 {
 	/*--- 입력해야하는 데이터 ---*/
