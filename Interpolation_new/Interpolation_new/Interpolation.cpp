@@ -38,7 +38,7 @@ void Interpolation::loadFile()
 	POC = new Point2D[Number_POC];
 	CP = new Point2D[Number_POC];
 	Coordinate = new Point2D[POC_Size];
-	All_POC = new Point2D[Parameter];
+	All_POC = new Point2D[Parameter+1];
 
 	/*--- Matrix 동적할당 ---*/
 	Matrix = new double *[Number_POC];
