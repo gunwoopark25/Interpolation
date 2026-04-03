@@ -21,7 +21,7 @@ void Interpolation::inputData()
 {
 	/*--- 입력해야하는 데이터 ---*/
 	Degree = 3;
-	Parameter = 100;
+	Parameter = 1000;
 	R = 5;
 
 	/*--- 계산된 데이터 ---*/
