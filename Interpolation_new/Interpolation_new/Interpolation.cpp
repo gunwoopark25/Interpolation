@@ -135,9 +135,9 @@ void Interpolation::makeBernsteinMatrix()
 	{
 		for (int j = 0; j <= Degree; j++)
 		{
-			Degreep = 1;
-			jp = 1;
-			Degree_jp = 1;
+			int Degreep = 1;
+			int jp = 1;
+			int Degree_jp = 1;
 
 			for (int k = 1; k <= Degree; k++)
 			{
@@ -148,12 +148,12 @@ void Interpolation::makeBernsteinMatrix()
 				jp *= k;
 			}
 
-			Degree_j = Degree - j;
+			int Degree_j = Degree - j;
 			for (int k = 1; k <= Degree_j; k++)
 			{
 				Degree_jp *= k;
 			}
-			nCr = Degreep / (jp * Degree_jp);
+			double nCr = Degreep / (jp * Degree_jp);
 
 			/*--- Bernstein Polynomial ---*/
 			Matrix[i][j] = nCr * pow(1 - u[i], Degree - j) * pow(u[i], j);
@@ -296,19 +296,23 @@ void Interpolation::solveNormalization()
 {
 	for (int i = 0; i <= Degree; i++)
 	{
+		/*--- POC 정규화 해제 ---*/
 		POC[i].x = POC[i].x * dx + Min_x;
 		POC[i].y = POC[i].y * dy + Min_y;
 
+		/*--- CP 정규화 해제 ---*/
 		CP[i].x = CP[i].x * dx + Min_x;
 		CP[i].y = CP[i].y * dy + Min_y;
 	}
 
 	for (int i = 0; i <= Parameter; i++)
 	{
+		/*--- All POC 정규화 해제 ---*/
 		All_POC[i].x = All_POC[i].x * dx + Min_x;
 		All_POC[i].y = All_POC[i].y * dy + Min_y;
 	}
 
+	/*--- 모든 Point 출력 ---*/
 	cout << "--- POC Coordinate ---" << endl;
 	for (int i = 0; i <= Degree; i++)
 	{

@@ -19,12 +19,6 @@ public:
 	double dx;
 	double dy;
 
-	int Degreep;
-	int jp;
-	int Degree_jp;
-	int Degree_j;
-	double nCr;
-
 	/*--- 1D ---*/
 	double *u;
 	double *l;
