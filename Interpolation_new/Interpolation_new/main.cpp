@@ -5,7 +5,7 @@
 
 using namespace std;
 
-void main()
+int main()
 {
     Interpolation Interpolation3;
 
@@ -17,4 +17,6 @@ void main()
     Interpolation3.MatrixMultiplication();
     Interpolation3.BezierCurve();
     Interpolation3.solveNormalization();
+
+    return 0;
 }
